@@ -33,7 +33,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.logged_in = False
 
         # Socket Server Stuff
-        self.ip = str(socket.gethostname())
+        # self.ip = str(socket.gethostname())
+        self.ip = '104.237.133.98'
         self.port = 5000
         self.split_string = '[325][6ofs<f.f2'
 
@@ -47,6 +48,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.crash_rounds = []
         self.crash_amount_style = (False, 'color: (255, 200, 0);')
         self.did_10 = False
+        self.last_round_time = 0
 
         self.close_threads = False
 
@@ -120,7 +122,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def crash_bet_button_pressed(self):
         try:
             bet = round(float(self.crash_bet_amount.text()), 2)
-            if self.data['to_start'] > 0 and self.crash_bet == 0:
+            if self.data['to_start'] > 0 and self.data['crash_counter'] > 0 and self.crash_bet == 0:
                 if self.data['balance'] >= bet > 0:
                     self.s.send(bytes('$' + str(bet), 'utf-8'))
                     self.crash_bet = bet
@@ -132,21 +134,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.s.send(bytes('out', 'utf-8'))
             else:
                 self.start_crash_error_timer()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     def update_crash_players(self):
         while not self.close_threads:
-            if 'crash_players' in self.data:
-                final_label = ''
-                for comp_name in self.data['crash_players']:
-                    if self.data['crash_players'][comp_name]['cashout'] > 0:
-                        final_label += self.data['crash_players'][comp_name]['username'] + ' ' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'], 2)) + 'x $' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'] * self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
-                    else:
-                        final_label += self.data['crash_players'][comp_name]['username'] + '  $' + '{:.2f}'.format(round(self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
-                self.crash_players_label.setText(final_label)
-            else:
-                self.crash_players_label.setText('')
+            try:
+                if 'crash_players' in self.data:
+                    final_label = ''
+                    for comp_name in self.data['crash_players']:
+                        if self.data['crash_players'][comp_name]['cashout'] > 0:
+                            final_label += self.data['crash_players'][comp_name]['username'] + ' ' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'], 2)) + 'x $' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'] * self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
+                        else:
+                            final_label += self.data['crash_players'][comp_name]['username'] + '  $' + '{:.2f}'.format(round(self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
+                    self.crash_players_label.setText(final_label)
+                else:
+                    self.crash_players_label.setText('')
+            except:
+                pass
 
         # r = json.loads(requests.get(self.url + 'api/crash_players/').text)
         # if r['success'] and r['label'] != '':
@@ -199,6 +204,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.crash_amount.setText('Starting in ' + str(self.data['to_start']))
                     if self.data['crashed']:
                         self.crash_amount_style = (True, 'color: rgb(200, 0, 0);')
+                        if time.time() > self.last_round_time + 5:
+                            self.crash_rounds.append(self.data['crash'])
+                            self.update_history()
+                            self.last_round_time = time.time()
                     elif self.data['to_start'] == 10 and not self.did_10:
                         self.crash_amount_style = (True, 'color: rgb(255, 200, 0);')
                         self.crash_bet_amount.show()

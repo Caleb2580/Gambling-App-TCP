@@ -122,7 +122,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def crash_bet_button_pressed(self):
         try:
             bet = round(float(self.crash_bet_amount.text()), 2)
-            if self.data['to_start'] > 0 and self.crash_bet == 0:
+            if self.data['to_start'] > 0 and self.data['crash_counter'] > 0 and self.crash_bet == 0:
                 if self.data['balance'] >= bet > 0:
                     self.s.send(bytes('$' + str(bet), 'utf-8'))
                     self.crash_bet = bet
@@ -139,16 +139,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def update_crash_players(self):
         while not self.close_threads:
-            if 'crash_players' in self.data:
-                final_label = ''
-                for comp_name in self.data['crash_players']:
-                    if self.data['crash_players'][comp_name]['cashout'] > 0:
-                        final_label += self.data['crash_players'][comp_name]['username'] + ' ' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'], 2)) + 'x $' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'] * self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
-                    else:
-                        final_label += self.data['crash_players'][comp_name]['username'] + '  $' + '{:.2f}'.format(round(self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
-                self.crash_players_label.setText(final_label)
-            else:
-                self.crash_players_label.setText('')
+            try:
+                if 'crash_players' in self.data:
+                    final_label = ''
+                    for comp_name in self.data['crash_players']:
+                        if self.data['crash_players'][comp_name]['cashout'] > 0:
+                            final_label += self.data['crash_players'][comp_name]['username'] + ' ' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'], 2)) + 'x $' + "{:.2f}".format(round(self.data['crash_players'][comp_name]['cashout'] * self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
+                        else:
+                            final_label += self.data['crash_players'][comp_name]['username'] + '  $' + '{:.2f}'.format(round(self.data['crash_players'][comp_name]['bet'], 2)) + '\n'
+                    self.crash_players_label.setText(final_label)
+                else:
+                    self.crash_players_label.setText('')
+            except:
+                pass
 
         # r = json.loads(requests.get(self.url + 'api/crash_players/').text)
         # if r['success'] and r['label'] != '':
