@@ -49,8 +49,11 @@ class GamblingServer:
                 thread = threading.Thread(target=self.handle_messages, args=(comp_name, c,))
                 thread.start()
             except:
-                self.connections.pop(str(a[1]))
-                c.close()
+                try:
+                    self.connections.pop(str(a[1]))
+                    c.close()
+                except:
+                    pass
 
     def deposit(self):
         while True:
@@ -112,7 +115,9 @@ class GamblingServer:
         while True:
             try:
                 bet = conn.recv(500).decode('utf-8')
+                print(bet)
                 if bet[0] == '$':
+                    bet = float(bet[1:])
                     if self.server_data['crash']['crash_counter'] > 0 and self.server_data['crash']['to_start'] > 0 and self.server_data['players'][computer_name]['balance'] >= bet and computer_name not in self.server_data['crash']['players']:
                         # print(self.server_data['players'][computer_name]['username'] + ' has bet $' + str(bet))
                         self.server_data['players'][computer_name]['balance'] -= bet
@@ -124,14 +129,18 @@ class GamblingServer:
                     amount = float(bet[bet.find('%@#') + 3:])
                     self.server_data['players'][computer_name]['balance'] += amount
                 elif bet == 'pla':
-                    sleep(.1)
-                    conn.send(bytes('pla' + json.dumps(self.server_data['players']), 'utf-8'))
+                    print(json.dumps(self.server_data['players']))
+                    for i in range(3):
+                        sleep(.1)
+                        conn.send(bytes('p$l$a$' + json.dumps(self.server_data['players']) + 'p%l%a%', 'utf-8'))
                 else:
                     if self.server_data['crash']['crash_counter'] == 0 and computer_name in self.server_data['crash']['players'] and self.server_data['crash']['players'][computer_name]['cashout'] == 0:
                         self.server_data['crash']['players'][computer_name]['cashout'] = self.server_data['crash']['multiplier']
                         self.server_data['players'][computer_name]['balance'] += self.server_data['crash']['players'][computer_name]['bet'] * self.server_data['crash']['players'][computer_name]['cashout']
-            except:
-                pass
+            except Exception as e:
+                print('Error in handle messages')
+                print(e)
+                break
 
     def send_data(self):
         while True:
@@ -167,8 +176,8 @@ class GamblingServer:
 # server_data = {'players': {}, 'crash_game': {}}
 # client_data = {'balance': 0.0, 'crash_game': {}}
 
-
-server = GamblingServer(socket.gethostname(), 5000)
+# server = GamblingServer(socket.gethostname(), 5000)
+server = GamblingServer('104.237.133.98', 5000)
 
 
 

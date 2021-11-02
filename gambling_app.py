@@ -33,7 +33,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.logged_in = False
 
         # Socket Server Stuff
-        self.ip = str(socket.gethostname())
+        # self.ip = str(socket.gethostname())
+        self.ip = '104.237.133.98'
         self.port = 5000
         self.split_string = '[325][6ofs<f.f2'
 
@@ -47,6 +48,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.crash_rounds = []
         self.crash_amount_style = (False, 'color: (255, 200, 0);')
         self.did_10 = False
+        self.last_round_time = 0
 
         self.close_threads = False
 
@@ -132,8 +134,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.s.send(bytes('out', 'utf-8'))
             else:
                 self.start_crash_error_timer()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     def update_crash_players(self):
         while not self.close_threads:
@@ -199,6 +201,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.crash_amount.setText('Starting in ' + str(self.data['to_start']))
                     if self.data['crashed']:
                         self.crash_amount_style = (True, 'color: rgb(200, 0, 0);')
+                        if time.time() > self.last_round_time + 5:
+                            self.crash_rounds.append(self.data['crash'])
+                            self.update_history()
+                            self.last_round_time = time.time()
                     elif self.data['to_start'] == 10 and not self.did_10:
                         self.crash_amount_style = (True, 'color: rgb(255, 200, 0);')
                         self.crash_bet_amount.show()
