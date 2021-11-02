@@ -1,0 +1,177 @@
+QWidget[objectName="centralwidget"] {
+    background-color: rgb(50, 50, 50);
+}
+
+QFrame[objectName="login_frame"] {
+    background-color: rgb(200, 200, 200);
+}
+
+QLabel[objectName="login_label"] {
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+QLineEdit[objectName="username_input"] {
+
+}
+
+QPushButton[objectName="login_button"] {
+    border: 0px solid white;
+    background-color: rgb(80, 255, 80);
+}
+
+QPushButton[objectName="login_button"]:pressed {
+    border: 2px solid rgb(80, 225, 80);
+    background-color: rgb(80, 225, 80);
+}
+
+QLabel[objectName="login_error_label"] {
+    color: rgb(200, 0, 0);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+QFrame[objectName="header_frame"] {
+    background-color: rgb(75, 75, 75);
+}
+
+QLabel[objectName="header_name"] {
+    color: rgb(200, 200, 200);
+    font-weight: bold;
+    font-size: 17px;
+}
+
+QPushButton[objectName="crash_button"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 17px;
+    background-color: transparent;
+    border: 0px solid black;
+}
+
+QPushButton[objectName="crash_button"]:pressed {
+    color: rgb(220, 220, 220);
+    font-weight: bold;
+    font-size: 17px;
+    background-color: transparent;
+    border: 0px solid black;
+}
+
+QLabel[objectName="crash_amount"] {
+    color: rgb(255, 200, 0);
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 70px;
+}
+
+QFrame[objectName="crash_amount_frame"] {
+    background-color: rgb(60, 60, 60);
+}
+
+QLabel[objectName="crash_bet_money_sign"] {
+    background-color: rgb(60, 60, 60);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 25px;
+    border: 0px solid white;
+}
+
+QLineEdit[objectName="crash_bet_amount"] {
+    background-color: rgb(60, 60, 60);
+    color: rgb(255, 255, 255);
+    /*font-weight: bold*/
+    font-size: 18px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_bet_label"] {
+    background-color: rgb(60, 60, 60);
+    color: rgb(125, 125, 125);
+    /*font-weight: bold*/
+    font-size: 18px;
+    border: 0px solid white;
+}
+
+QPushButton[objectName="crash_bet_button"] {
+    background-color: rgb(60, 60, 60);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 18px;
+    border: 0px solid white;
+}
+
+QPushButton[objectName="crash_bet_button"]:pressed {
+    background-color: rgb(75, 75, 75);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 25px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_bet_message"] {
+    background-color: transparent;
+    color: rgb(200, 0, 0);
+    font-weight: bold;
+    font-size: 15px;
+    border: 0px solid white;
+}
+
+QFrame[objectName="crash_history_frame"] {
+    background-color: rgb(30, 30, 30);
+}
+
+QLabel[objectName="crash_history_1"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 12px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_history_2"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 12px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_history_3"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 12px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_history_4"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 12px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_history_5"] {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 12px;
+    border: 0px solid white;
+}
+
+QLabel[objectName="crash_players_title"] {
+    color: rgb(200, 200, 200);
+    font-weight: bold;
+    font-size: 25px;
+}
+
+QLabel[objectName="crash_players_label"] {
+    color: rgb(200, 200, 200);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
